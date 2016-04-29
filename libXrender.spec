@@ -4,7 +4,7 @@
 #
 Name     : libXrender
 Version  : 0.9.9
-Release  : 6
+Release  : 7
 URL      : http://xorg.freedesktop.org/releases/individual/lib/libXrender-0.9.9.tar.bz2
 Source0  : http://xorg.freedesktop.org/releases/individual/lib/libXrender-0.9.9.tar.bz2
 Summary  : X Render Library
