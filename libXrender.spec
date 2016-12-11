@@ -4,7 +4,7 @@
 #
 Name     : libXrender
 Version  : 0.9.10
-Release  : 10
+Release  : 11
 URL      : http://xorg.freedesktop.org/releases/individual/lib/libXrender-0.9.10.tar.bz2
 Source0  : http://xorg.freedesktop.org/releases/individual/lib/libXrender-0.9.10.tar.bz2
 Summary  : X Render Library
@@ -12,6 +12,14 @@ Group    : Development/Tools
 License  : HPND
 Requires: libXrender-lib
 Requires: libXrender-doc
+BuildRequires : gcc-dev32
+BuildRequires : gcc-libgcc32
+BuildRequires : gcc-libstdc++32
+BuildRequires : glibc-dev32
+BuildRequires : glibc-libc32
+BuildRequires : pkgconfig(32renderproto)
+BuildRequires : pkgconfig(32x11)
+BuildRequires : pkgconfig(32xorg-macros)
 BuildRequires : pkgconfig(renderproto)
 BuildRequires : pkgconfig(x11)
 BuildRequires : pkgconfig(xorg-macros)
@@ -31,6 +39,15 @@ Provides: libXrender-devel
 dev components for the libXrender package.
 
 
+%package dev32
+Summary: dev32 components for the libXrender package.
+Group: Default
+Requires: libXrender-lib32
+
+%description dev32
+dev32 components for the libXrender package.
+
+
 %package doc
 Summary: doc components for the libXrender package.
 Group: Documentation
@@ -47,14 +64,31 @@ Group: Libraries
 lib components for the libXrender package.
 
 
+%package lib32
+Summary: lib32 components for the libXrender package.
+Group: Default
+
+%description lib32
+lib32 components for the libXrender package.
+
+
 %prep
 %setup -q -n libXrender-0.9.10
+pushd ..
+cp -a libXrender-0.9.10 build32
+popd
 
 %build
 export LANG=C
 %configure --disable-static
 make V=1  %{?_smp_mflags}
 
+pushd ../build32
+export CFLAGS="$CFLAGS -m32"
+export CXXFLAGS="$CXXFLAGS -m32"
+%configure --disable-static  --libdir=/usr/lib32
+make V=1  %{?_smp_mflags}
+popd
 %check
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
@@ -64,6 +98,15 @@ make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
 rm -rf %{buildroot}
+pushd ../build32
+%make_install32
+if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
+then
+pushd %{buildroot}/usr/lib32/pkgconfig
+for i in *.pc ; do mv $i 32$i ; done
+popd
+fi
+popd
 %make_install
 
 %files
@@ -75,6 +118,11 @@ rm -rf %{buildroot}
 /usr/lib64/libXrender.so
 /usr/lib64/pkgconfig/xrender.pc
 
+%files dev32
+%defattr(-,root,root,-)
+/usr/lib32/libXrender.so
+/usr/lib32/pkgconfig/32xrender.pc
+
 %files doc
 %defattr(-,root,root,-)
 %doc /usr/share/doc/libXrender/*
@@ -83,3 +131,8 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /usr/lib64/libXrender.so.1
 /usr/lib64/libXrender.so.1.3.0
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libXrender.so.1
+/usr/lib32/libXrender.so.1.3.0
