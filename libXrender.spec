@@ -4,7 +4,7 @@
 #
 Name     : libXrender
 Version  : 0.9.10
-Release  : 9
+Release  : 10
 URL      : http://xorg.freedesktop.org/releases/individual/lib/libXrender-0.9.10.tar.bz2
 Source0  : http://xorg.freedesktop.org/releases/individual/lib/libXrender-0.9.10.tar.bz2
 Summary  : X Render Library
@@ -72,8 +72,8 @@ rm -rf %{buildroot}
 %files dev
 %defattr(-,root,root,-)
 /usr/include/X11/extensions/Xrender.h
-/usr/lib64/*.so
-/usr/lib64/pkgconfig/*.pc
+/usr/lib64/libXrender.so
+/usr/lib64/pkgconfig/xrender.pc
 
 %files doc
 %defattr(-,root,root,-)
@@ -81,4 +81,5 @@ rm -rf %{buildroot}
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/*.so.*
+/usr/lib64/libXrender.so.1
+/usr/lib64/libXrender.so.1.3.0
