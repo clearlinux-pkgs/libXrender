@@ -6,7 +6,7 @@
 #
 Name     : libXrender
 Version  : 0.9.10
-Release  : 14
+Release  : 15
 URL      : http://xorg.freedesktop.org/releases/individual/lib/libXrender-0.9.10.tar.bz2
 Source0  : http://xorg.freedesktop.org/releases/individual/lib/libXrender-0.9.10.tar.bz2
 Source99 : http://xorg.freedesktop.org/releases/individual/lib/libXrender-0.9.10.tar.bz2.sig
